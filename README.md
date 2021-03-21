@@ -1,5 +1,5 @@
-echo "# openvpn-tools de La borne saint léger" >> README.md
-git init
+echo "# openvpn-tools de La borne saint léger" >> README.md\n
+git init\n
 git add README.md
 git commit -m "first commit"
 git branch -M main
