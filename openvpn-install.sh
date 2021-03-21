@@ -1,0 +1,239 @@
+#!/bin/bash
+
+function openvpn-git {
+		# Installation openvpn avec la dernière version connue ...
+		echo "Compilation $LAVER"
+		cd /tmp
+		wget $ADRESSE$LAVER$EXT
+		tar -xvf  $LAVER$EXT
+		cd "/tmp/$LAVER"
+		./configure
+		make
+		make install
+		mkdir /etc/openvpn
+		mkdir /etc/openvpn/client/
+		mkdir /etc/openvpn/server/
+		ln -sf /usr/local/sbin/openvpn /usr/sbin/
+		echo "[Unit]
+Description=OpenVPN service for %I
+After=syslog.target network-online.target
+Wants=network-online.target
+Documentation=man:openvpn(8)
+Documentation=https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage
+Documentation=https://community.openvpn.net/openvpn/wiki/HOWTO
+
+[Service]
+Type=notify
+PrivateTmp=true
+WorkingDirectory=/etc/openvpn/server
+ExecStart=/usr/local/sbin/openvpn --status %t/openvpn-server/status-%i.log --status-version 2 --suppress-timestamps --cipher AES-256-GCM --data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC:AES-128-CBC:BF-CBC --config %i.conf
+CapabilityBoundingSet=CAP_IPC_LOCK CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW CAP_SETGID CAP_SETUID CAP_SYS_CHROOT CAP_DAC_OVERRIDE CAP_AUDIT_WRITE
+LimitNPROC=10
+DeviceAllow=/dev/null rw
+DeviceAllow=/dev/net/tun rw
+ProtectSystem=true
+ProtectHome=true
+KillMode=process
+RestartSec=5s
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target"  > /usr/lib/systemd/system/openvpn-server@.service
+	systemctl enable openvpn-server@server
+	systemctl daemon-reload
+	# !!!! Créer les certificat s avant de démarrer openvpn en a besoin !!!!!
+}
+
+function openvpn-dnf {
+	# Installation openvpn avec la dernière version déjà compilée
+	echo "Installation version compilée d'Openvpn"
+	# suppression si autre version installée
+	# sup-openvpn
+	dnf install -y openvpn
+}
+
+function compil {
+	#~ echo "Installation $STR"
+		#~ OPTION=$(whiptail --title "Openvpn" --menu "Choisissez la version a installé" 10 40 2 \
+	#~ "1" "Compilation $LAVER" \
+	#~ "2" "Installation openvpn 2.4"  3>&1 1>&2 2>&3)
+	dialog --backtitle "Installation Openvpn" --title "Installation $LAVER" \
+	--ok-label "Installer" --cancel-label "Passer" \
+	--radiolist "
+	Cochez les boîtes." 10 40 2 \
+	"1" "Compilation $LAVER" ON \
+	"2" "Installation openvpn 2.4" OFF 2> $FICHTMP
+	# traitement de la réponse
+	# 0 est le code retour du bouton Valider
+	# ici seul le bouton Valider permet de continuer
+	# tout autre action (Quitter, Esc, Ctrl-C) arrête le script.
+
+	if [ $? = 0 ]
+	then
+		dnf -y install lz4-devel lzo-devel
+		for i in `cat $FICHTMP`
+		do
+			case $i in
+				"1") openvpn-git ;;
+				"2") openvpn-dnf ;;
+			esac
+		done
+		echo "
+# OpenVPN Port, Protocol, and the Tun
+port 1194
+proto udp
+dev tun
+
+# OpenVPN Server Certificate - CA, server key and certificate
+ca /etc/openvpn/server/ca.crt
+cert /etc/openvpn/server/server.crt
+key /etc/openvpn/server/server.key
+
+#DH and CRL key
+dh dh.pem
+#crl-verify /etc/openvpn/server/crl.pem
+topology subnet
+
+# Network Configuration - Internal network
+# Redirect all Connection through OpenVPN Server
+server 10.5.0.0 255.255.255.0
+#ifconfig-pool-persist ipp.txt
+#push \"redirect-gateway def1\"
+push \"redirect-gateway def1 bypass-dhcp\"
+
+# Using the DNS from https://dns.watch
+#push \"dhcp-option DNS 84.200.69.80\"
+#push \"dhcp-option DNS 84.200.70.40\"
+
+# Using the DNS from google
+push \"dhcp-option DNS 8.8.8.8\"
+push \"dhcp-option DNS 8.8.8.4\"
+
+#Enable multiple clients to connect with the same certificate key
+duplicate-cn
+
+# TLS Security
+cipher AES-256-CBC
+tls-version-min 1.2
+tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
+auth SHA512
+auth-nocache
+
+# Other Configuration
+keepalive 20 60
+max-clients 100
+persist-key
+persist-tun
+compress lz4-v2
+push \"compress lz4-v2\"
+#=>daemon
+user nobody
+group nobody
+
+# OpenVPN Log
+status openvpn-status.log
+log-append /var/log/openvpn.log
+verb $DEBUG
+explicit-exit-notify
+" > /etc/openvpn/server/server.conf
+		update-crypto-policies --set LEGACY
+		cd /tmp
+		# installation easy-rsa
+		git clone https://github.com/OpenVPN/$EASYRSA
+		mkdir  /etc/openvpn/easy-rsa/
+		cp  -R /tmp/easy-rsa/easyrsa3/* /etc/openvpn/easy-rsa/
+		mkdir /etc/openvpn/lesclients/
+		cp /tmp/easy-rsa/ChangeLog /etc/openvpn/easy-rsa/
+		if ! command systemctl start openvpn-server@server &> /dev/null
+		then
+			# Les clés du serveur doivent d'abord être créés:
+			whiptail --title "Installation" --msgbox "Installer d'abord les clés du serveur." 10 40
+			if (whiptail --title "Confirmation" --yesno "Installer les clés du serveur?" 8 78); then
+				echo "Installation des clés."
+				certif
+			fi
+		fi
+		# installation easy-tls
+		#~ git clone https://github.com/TinCanTech/easy-tls.git
+		#~ cp /tmp/easy-tls/easytls /etc/openvpn/easy-rsa/
+		#~ cp /tmp/easy-tls/easytls-cryptv2-verify.sh /etc/openvpn/easy-rsa/
+		#~ cp /tmp/easy-tls/easytls-cryptv2-client-connect.sh /etc/openvpn/easy-rsa/
+		#~ chmod +x /tmp/easy-tls/easytls-cryptv2*
+		#~ cd  /etc/openvpn/easy-rsa/
+		#~ ./easytls-cryptv2-verify.sh
+		#~ ./easytls-cryptv2-client-connect.sh
+		updatedb
+		laversion
+	fi
+	if ! command -v openvpn --version &> /dev/null
+	then
+		# openvpn doit d'abord être installé:
+		whiptail --title "Installation" --msgbox "Installer d'abord openvpn." 10 40
+	else
+		if (whiptail --title "Confirmation" --yesno "Installer l'interface d'administration d'openvpn?" 8 78); then
+			echo "Installation chocobozz."
+			chocobozzz
+		fi	
+	fi
+}
+
+function chocobozzz {
+	systemctl stop httpd.service
+	dnf -y install nodejs unzip git wget sed npm
+	npm install -g bower
+	cd /tmp
+	git clone https://github.com/Chocobozzz/OpenVPN-Admin.git
+	cd OpenVPN-Admin
+	chmod +x desinstall.sh
+	chmod +x install.sh
+	chmod +x update.sh
+	./install.sh /var/www/ apache apache
+	
+	#~ Setup the web server (Apache, NGinx...) to serve the web application.
+	#~ Create the admin of the web application by visiting http://your-installation/index.php?installation
+	
+	# Mise à jour
+	#~ $ git pull origin master
+	#~ # ./update.sh /var/www
+
+	# Desinstallion
+	#~ It will remove all installed components (OpenVPN keys and configurations, the web application, iptables rules...).
+	#~ # ./desinstall.sh /var/www
+	
+	# Ownership
+	chown apache:apache -R /var/www/openvpn-admin
+	cd /var/www/openvpn-admin
+	# File permissions, recursive
+	find . -type f -exec chmod 0644 {} \;
+	# Dir permissions, recursive
+	find . -type d -exec chmod 0755 {} \;
+	#SELinux serve files off Apache, resursive
+	chcon -t httpd_sys_content_t /var/www/openvpn-admin -R
+	# Allow write only to specific dirs
+	chcon -t httpd_sys_rw_content_t /var/www/openvpn-admin/client-conf -R
+	systemctl restart httpd.service
+	linstall='Chocobozzz'
+	# http://openvpn.selfmicro.com/index.php?installation
+	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 50
+
+}
+
+function sup-openvpn{
+	systemctl stop openvpn-server@server
+	rm -rf /etc/openvpn
+	rm -rf /etc/systemd/system/multi-user.target.wants/openvpn-server*
+	rm -rf /tmp/easy-rsa
+	rm -rf /tmp/openvpn*
+	rm -rf /tmp/openvpn*
+	rm -rf /usr/local/include/openvpn*
+	rm -rf /usr/local/lib/openvpn
+	rm -rf /usr/local/sbin/openvpn
+	rm -rf /usr/sbin/openvpn
+	rm -rf /usr/local/share/doc/openvpn
+	rm -rf /usr/lib/systemd/system/openvpn*
+	rm -rf /var/log/openvpn*
+	rm -rf /var/www/openvpn-admin
+	m -rf /etc/openvpn/server/openvpn-status.log
+	rm -rf /tmpOpenVPN*
+	dnf install openvpn -y
+}
