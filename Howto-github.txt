@@ -1,5 +1,0 @@
-
-# valider les changements 
-git commit -a
-git push
-
