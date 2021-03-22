@@ -1,0 +1,7 @@
+#ajouter un fichier au repository:
+git add <nom-du-fichier>
+
+# valider les changements 
+git commit -a -m "Change"
+git push
+
