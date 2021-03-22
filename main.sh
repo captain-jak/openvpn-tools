@@ -3,6 +3,8 @@
 # ce script nécessite les bibliotheques dialog et whiptail (newt)
 # dnf -y dialog newt
 
+# toto
+
 # ssh - ServerAliveInterval 120 -i ~/.ssh/digital-ocean root@178.128.226.69
 # upload fichiers de configuration sur le serveur:
 # scp -i ~/.ssh/digital-ocean /home/enjoy/projets/OPENVPN/OPENVPN.zip root@openvpn.selfmicro.com:/root/
