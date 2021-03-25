@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+# tutu
+
+
 function parefeu {
 		echo "Installation $STR"
 		dnf install firewalld -y
