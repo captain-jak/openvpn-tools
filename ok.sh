@@ -2,7 +2,7 @@
 
 
 # On pousse les nouveaux fichiers sur github
-git commit -a -m "Changement par script sur Lenovo2"
+git commit -a -m "Changement par script sur Lenovo3"
 git push
 
 # Mise à jour sur le serveur openvpn:
