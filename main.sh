@@ -5,13 +5,13 @@
 
 # ssh - ServerAliveInterval 120 -i ~/.ssh/digital-ocean root@178.128.226.69
 # upload fichiers de configuration sur le serveur:
-# scp -i ~/.ssh/digital-ocean /home/enjoy/projets/OPENVPN/OPENVPN.zip root@openvpn.selfmicro.com:/root/
+# scp -i ~/.ssh/digital-ocean /home/enjoy/projets/openvpn-tools/openvpn-tools.zip root@openvpn.selfmicro.com:/root/
 # puis sur le serveur:
 #~ dnf install -y unzip dialog newt
-#~ mkdir /root/OPENVPN
-#~ mv /root/OPENVPN.zip /root/OPENVPN
-#~ cd /root/OPENVPN/
-#~ unzip OPENVPN.zip
+#~ mkdir /root/openvpn-tools
+#~ mv /root/openvpn-tools.zip /root/openvpn-tools
+#~ cd /root/openvpn-tools/
+#~ unzip openvpn-tools.zip
 #~ chmod +x *.sh
 #~ # démarrage de l'installation
 #~ ./main.sh
@@ -24,11 +24,11 @@ EASYRSA="easy-rsa.git"
 DEBUG=6
 
 . /root/openvpn-tools/init.sh
-. /root//openvpn-tools/openvpn-install.sh
-. /root//openvpn-tools/parefeu.sh
-. /root//openvpn-tools/certif.sh
-. /root//openvpn-tools/lamp-base.sh
-. /root//openvpn-tools/supprime.sh
+. /root/openvpn-tools/openvpn-install.sh
+. /root/openvpn-tools/parefeu.sh
+. /root/openvpn-tools/certif.sh
+. /root/openvpn-tools/lamp-base.sh
+. /root/openvpn-tools/supprime.sh
 
 if [[ "${EUID}" == 0 ]]; then
         :
