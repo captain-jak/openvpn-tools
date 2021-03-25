@@ -96,8 +96,8 @@ function laversion {
 
 	if [ "$VERSION"  != '' ]; then	
 		sysctl restart openvpn-server@service
-		whiptail --title "Openvpn" --msgbox " Versions:\n$VERSION\nEasy-RSA $VERSION2" 10 35
+		whiptail --title "Openvpn" --msgbox "Versions:\n$VERSION\nEasy-RSA $VERSION2" 10 35
 	else
-		whiptail --title "Openvpn" --msgbox " Openvpn n'est pas installé." 10 40
+		whiptail --title "Openvpn" --msgbox "Openvpn n'est pas installé." 10 40
 	fi
 }
