@@ -23,12 +23,12 @@ EXT=".tar.xz"
 EASYRSA="easy-rsa.git"
 DEBUG=6
 
-. /root//OPENVPN/init.sh
-. /root//OPENVPN/openvpn-install.sh
-. /root//OPENVPN/parefeu.sh
-. /root//OPENVPN/certif.sh
-. /root//OPENVPN/lamp-base.sh
-. /root//OPENVPN/supprime.sh
+. /root/openvpn-tools/init.sh
+. /root//openvpn-tools/openvpn-install.sh
+. /root//openvpn-tools/parefeu.sh
+. /root//openvpn-tools/certif.sh
+. /root//openvpn-tools/lamp-base.sh
+. /root//openvpn-tools/supprime.sh
 
 if [[ "${EUID}" == 0 ]]; then
         :

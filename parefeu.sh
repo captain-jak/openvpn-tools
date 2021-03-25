@@ -1,8 +1,6 @@
 #!/bin/bash
 
-
-# tutu
-
+# titi
 
 function parefeu {
 		echo "Installation $STR"
