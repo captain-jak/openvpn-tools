@@ -75,7 +75,7 @@ function lemenu {
 				"openvpn") compil;;
 				"parefeu") parefeu ;;
 				"certificat") certif ;;
-				"version") laversion ;;
+				"version") laversion2 ;;
 				"lamp") lamp-base ;;
 				"uninstall") suprime ;;
 				"reboot") reboote ;;
@@ -95,7 +95,7 @@ done
 # find a word in a directory and sundirectories, ignoring the case
 # grep -irw openvpn *
 
-function laversion {
+function laversion2 {
 	#  echo "Version serveur Openvpn."
 	VERSION=$(openvpn --version | grep -w -m 1 'OpenVPN.*.SSL')
 	VERSION=${VERSION:0:14}
