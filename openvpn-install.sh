@@ -123,6 +123,22 @@ function compil {
 	fi
 }
 
+function laversion {
+	#  echo "Version serveur Openvpn."
+	VERSION=$(openvpn --version | grep -w -m 1 'OpenVPN.*.SSL')
+	VERSION=${VERSION:0:14}
+	echo "La version est:$VERSION"
+	VERSION2=$(cat /etc/openvpn/easy-rsa/ChangeLog | grep -w -m 3 '(TBD)')
+	VERSION2=${VERSION2:0:5}
+	echo "La version est:$VERSION et Easy-RSA $VERSION2"
+	if [ "$VERSION"  != '' ]; then	
+			systemctl restart openvpn-server@server
+		whiptail --title "Openvpn" --msgbox "Versions:\n$VERSION\nEasy-RSA $VERSION2" 10 35
+	else
+		whiptail --title "Openvpn" --msgbox "Openvpn n'est pas installé." 10 40
+	fi
+}
+
 function chocobozzz {
 	systemctl stop httpd.service
 	dnf -y install nodejs unzip git wget sed npm
