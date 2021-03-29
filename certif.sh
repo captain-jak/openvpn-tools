@@ -71,6 +71,12 @@ set_var EASYRSA_DIGEST          \"sha256\"
 	cp -f /etc/openvpn/easy-rsa/pki/ca.crt /etc/openvpn/client/
 	cp -f pki/issued/* /etc/openvpn/server/
 	cp -n pki/private/* /etc/openvpn/server/
+	# For extra security beyond that provided
+	# by SSL/TLS, create an "HMAC firewall"
+	# to help block DoS attacks and UDP port flooding.
+	# Ne pas oublier pour être effectif, a ajouter dans server.conf
+	openvpn --genkey --secret ta.key
+	mv ta.key /etc/openvpn/server/
 	whiptail --title "Clés serveur" --msgbox "Les clés serveur ont été créés." 10 40
 			fi	
 }
