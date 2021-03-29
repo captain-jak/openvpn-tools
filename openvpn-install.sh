@@ -13,6 +13,64 @@ function openvpn-git {
 		mkdir /etc/openvpn
 		mkdir /etc/openvpn/client/
 		mkdir /etc/openvpn/server/
+		echo "
+# OpenVPN Port, Protocol, and the Tun
+port 1194
+proto udp
+dev tun
+
+# OpenVPN Server Certificate - CA, server key and certificate
+ca /etc/openvpn/server/ca.crt
+cert /etc/openvpn/server/server.crt
+key /etc/openvpn/server/server.key
+
+#DH and CRL key
+dh dh.pem
+#crl-verify /etc/openvpn/server/crl.pem
+topology subnet
+
+# Network Configuration - Internal network
+# Redirect all Connection through OpenVPN Server
+server 10.5.0.0 255.255.255.0
+#ifconfig-pool-persist ipp.txt
+#push \"redirect-gateway def1\"
+push \"redirect-gateway def1 bypass-dhcp\"
+
+# Using the DNS from https://dns.watch
+#push \"dhcp-option DNS 84.200.69.80\"
+#push \"dhcp-option DNS 84.200.70.40\"
+
+# Using the DNS from google
+push \"dhcp-option DNS 8.8.8.8\"
+push \"dhcp-option DNS 8.8.8.4\"
+
+#Enable multiple clients to connect with the same certificate key
+duplicate-cn
+
+# TLS Security
+cipher AES-256-CBC
+tls-version-min 1.2
+tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
+auth SHA512
+auth-nocache
+
+# Other Configuration
+keepalive 20 60
+max-clients 100
+persist-key
+persist-tun
+compress lz4-v2
+push \"compress lz4-v2\"
+#=>daemon
+user nobody
+group nobody
+
+# OpenVPN Log
+status openvpn-status.log
+log-append /var/log/openvpn.log
+verb $DEBUG
+explicit-exit-notify
+" > /etc/openvpn/server/server.conf
 		ln -sf /usr/local/sbin/openvpn /usr/sbin/
 		echo "[Unit]
 Description=OpenVPN service for %I
@@ -78,64 +136,6 @@ function compil {
 				"2") openvpn-dnf ;;
 			esac
 		done
-		echo "
-# OpenVPN Port, Protocol, and the Tun
-port 1194
-proto udp
-dev tun
-
-# OpenVPN Server Certificate - CA, server key and certificate
-ca /etc/openvpn/server/ca.crt
-cert /etc/openvpn/server/server.crt
-key /etc/openvpn/server/server.key
-
-#DH and CRL key
-dh dh.pem
-#crl-verify /etc/openvpn/server/crl.pem
-topology subnet
-
-# Network Configuration - Internal network
-# Redirect all Connection through OpenVPN Server
-server 10.5.0.0 255.255.255.0
-#ifconfig-pool-persist ipp.txt
-#push \"redirect-gateway def1\"
-push \"redirect-gateway def1 bypass-dhcp\"
-
-# Using the DNS from https://dns.watch
-#push \"dhcp-option DNS 84.200.69.80\"
-#push \"dhcp-option DNS 84.200.70.40\"
-
-# Using the DNS from google
-push \"dhcp-option DNS 8.8.8.8\"
-push \"dhcp-option DNS 8.8.8.4\"
-
-#Enable multiple clients to connect with the same certificate key
-duplicate-cn
-
-# TLS Security
-cipher AES-256-CBC
-tls-version-min 1.2
-tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
-auth SHA512
-auth-nocache
-
-# Other Configuration
-keepalive 20 60
-max-clients 100
-persist-key
-persist-tun
-compress lz4-v2
-push \"compress lz4-v2\"
-#=>daemon
-user nobody
-group nobody
-
-# OpenVPN Log
-status openvpn-status.log
-log-append /var/log/openvpn.log
-verb $DEBUG
-explicit-exit-notify
-" > /etc/openvpn/server/server.conf
 		update-crypto-policies --set LEGACY
 		cd /tmp
 		# installation easy-rsa
