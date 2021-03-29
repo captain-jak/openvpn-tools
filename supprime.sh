@@ -25,7 +25,6 @@ rm -rf /tmp/jcameron-*
 
 ########################################################################
 
-		systemctl stop firewalld
 		systemctl stop openvpn-server@server
 		dnf remove lz4-devel lzo-devel openvpn -y
 		dnf remove nodejs unzip git wget sed npm

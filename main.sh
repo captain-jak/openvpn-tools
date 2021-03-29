@@ -16,6 +16,22 @@
 #~ # démarrage de l'installation
 #~ ./main.sh
 
+function laversion2 {
+	#  echo "Version serveur Openvpn."
+	VERSION=$(openvpn --version | grep -w -m 1 'OpenVPN.*.SSL')
+	VERSION=${VERSION:0:14}
+	echo "La version est:$VERSION"
+	VERSION2=$(cat /etc/openvpn/easy-rsa/ChangeLog | grep -w -m 3 '(TBD)')
+	VERSION2=${VERSION2:0:5}
+	echo "La version est:$VERSION et Easy-RSA $VERSION2"
+	if [ "$VERSION"  != '' ]; then	
+			systemctl restart openvpn-server@server
+		whiptail --title "Openvpn" --msgbox "Versions:\n$VERSION\nEasy-RSA $VERSION2" 10 35
+	else
+		whiptail --title "Openvpn" --msgbox "Openvpn n'est pas installé." 10 40
+	fi
+}
+
 # Paramétres d'installation:
 ADRESSE="https://swupdate.openvpn.org/community/releases/"
 LAVER="openvpn-2.5.1"
@@ -95,10 +111,4 @@ done
 # find a word in a directory and sundirectories, ignoring the case
 # grep -irw openvpn *
 
-function laversion2 {
-	#  echo "Version serveur Openvpn."
-	VERSION=$(openvpn --version | grep -w -m 1 'OpenVPN.*.SSL')
-	VERSION=${VERSION:0:14}
-	echo "La version est:$VERSION"
 
-}
