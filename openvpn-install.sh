@@ -97,9 +97,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target"  > /usr/lib/systemd/system/openvpn-server@.service
-	systemctl enable openvpn-server@server
-	systemctl daemon-reload
-	# !!!! Créer les certificat s avant de démarrer openvpn en a besoin !!!!!
 }
 
 function openvpn-dnf {
@@ -108,6 +105,7 @@ function openvpn-dnf {
 	# suppression si autre version installée
 	# sup-openvpn
 	dnf install -y openvpn
+	mv /usr/lib/systemd/system/openvpn-server@.service /usr/lib/systemd/system/openvpn-server@server.service
 }
 
 function compil {
@@ -137,6 +135,10 @@ function compil {
 			esac
 		done
 		update-crypto-policies --set LEGACY
+		# démarrer le service à chaque reboot de la machine
+		systemctl enable openvpn-server@server
+		# apres avoir modifié le fichier @service, il faut recharger le daemon
+		systemctl daemon-reload
 		cd /tmp
 		# installation easy-rsa
 		git clone https://github.com/OpenVPN/$EASYRSA
@@ -147,7 +149,7 @@ function compil {
 		if ! command systemctl start openvpn-server@server &> /dev/null
 		then
 			# Les clés du serveur doivent d'abord être créés:
-			whiptail --title "Installation" --msgbox "Installer d'abord les clés du serveur." 10 40
+			whiptail --title "Installation" --msgbox "Avant de démarrer openvpn, installer d'abord les clés du serveur." 10 40
 			if (whiptail --title "Confirmation" --yesno "Installer les clés du serveur?" 8 78); then
 				echo "Installation des clés."
 				certif

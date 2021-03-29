@@ -15,6 +15,8 @@ git clone
 
 #ajouter un fichier au repository:
 git add <nom-du-fichier>
+#supprimer un fichier au repository:
+git rm <nom-du-fichier>
 
 # valider les changements 
 git commit -a -m "Change du serveur"
