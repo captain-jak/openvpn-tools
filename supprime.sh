@@ -2,7 +2,7 @@
 
 function suprime {
 		echo "Désnstallation: openvpn - administration openvpn - firewalld - easy-rsa"
-		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n- administration openvpn\n- firewalld" 10 40
+		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n- administration openvpn\n" 10 40
 #########################################################################
 # menu de désinstallation
 ########################################################################
@@ -27,7 +27,7 @@ rm -rf /tmp/jcameron-*
 
 		systemctl stop firewalld
 		systemctl stop openvpn-server@server
-		dnf remove lz4-devel lzo-devel firewalld openvpn -y
+		dnf remove lz4-devel lzo-devel openvpn -y
 		dnf remove nodejs unzip git wget sed npm
 		rm -rf /etc/openvpn
 		rm -rf /etc/systemd/system/multi-user.target.wants/openvpn-server*
