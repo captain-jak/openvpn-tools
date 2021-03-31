@@ -29,7 +29,7 @@ function suprime {
 
 function openvpn-desinstall {
 		echo "Désnstallation: openvpn - administration openvpn - firewalld - easy-rsa"
-		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n- administration openvpn\n" 10 40
+		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n" 10 40
 #########################################################################
 # menu de désinstallation
 ########################################################################
@@ -77,6 +77,7 @@ rm -rf /tmp/jcameron-*
 
 function openvpn-admin-desinstall {
 	cd /tmp/OpenVPN-Admin
+	chmod +x desinstall.sh
 	./desinstall.sh /var/www
 	updatedb
 }
