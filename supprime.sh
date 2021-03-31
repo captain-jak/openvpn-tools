@@ -1,6 +1,33 @@
 #!/bin/bash
 
-function suprime {
+# Menu de desinstallation
+function supprime {
+	# boîte de cases à cocher proprement dite
+	dialog --backtitle "Désinstallation" --title "Désinstallation" \
+	--ok-label "Valider" --cancel-label "Quitter" \
+	--checklist "
+	Cochez les boîtes." 25 60 8 \
+	"openvpn-desinstall" "openvpn" off \
+	"openvpn-admin-desinstall" "Administration openvpn" off  2> $FICHTMP
+	# traitement de la réponse
+	# 0 est le code retour du bouton Valider
+	# ici seul le bouton Valider permet de continuer
+	# tout autre action (Quitter, Esc, Ctrl-C) arrête le script.
+
+	if [ $? = 0 ]
+	then
+		for i in `cat $FICHTMP`
+		do
+			case $i in
+				"openvpn-desinstall") openvpn-desinstall ;;
+				"openvpn-admin-desinstall") openvpn-admin-desinstall;;
+			esac
+		done
+	else exit 0
+	fi 
+}
+
+function openvpn-desinstall {
 		echo "Désnstallation: openvpn - administration openvpn - firewalld - easy-rsa"
 		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n- administration openvpn\n" 10 40
 #########################################################################
@@ -33,8 +60,6 @@ rm -rf /tmp/jcameron-*
 		rm -rf /tmp/easy-rsa
 		rm -rf /tmp/openvpn*
 		rm -rf /tmp/openvpn*
-		cd /tmp/OpenVPN-Admin
-		./desinstall.sh
 		cd /tmp
 		rm -rf OpenVPN-Admin
 		rm -rf /usr/local/include/openvpn*
@@ -50,6 +75,8 @@ rm -rf /tmp/jcameron-*
 		updatedb
 }
 
-function uninstall {
-	
+function openvpn-admin-desinstall {
+	cd /tmp/OpenVPN-Admin
+	./desinstall.sh /var/www
+	updatedb
 }

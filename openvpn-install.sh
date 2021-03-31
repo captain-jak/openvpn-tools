@@ -182,7 +182,7 @@ function chocobozzz {
 	systemctl restart httpd.service
 	linstall='Chocobozzz'
 	# http://openvpn.selfmicro.com/index.php?installation
-	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 50
+	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 60
 
 }
 

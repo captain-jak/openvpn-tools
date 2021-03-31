@@ -54,6 +54,7 @@ function parefeu-install {
 		firewall-cmd --reload
 		systemctl restart firewalld
 		firewall-cmd --permanent --list-all
+		updatedb
 		whiptail --title "Pare-feu" --msgbox "Le pare-feu a été installé:\n" 10 40
 }
 
@@ -64,6 +65,8 @@ function parefeu-desinstall {
 	firewall-cmd --add-service={ssh,dhcpv6-client}
 	firewall-cmd --runtime-to-permanent
 	systemctl stop firewalld
+	rm -rf /etc/firewalld
 	dnf remove firewalld -y
+	updatedb
 	whiptail --title "Pare-feu" --msgbox "Le pare-feu a été désinstallé:\n" 10 40
 }
