@@ -146,6 +146,7 @@ function laversion {
 }
 
 function chocobozzz {
+	systemctl stop openvpn-server@server
 	systemctl stop httpd.service
 	dnf -y install nodejs unzip git wget sed npm
 	npm install -g bower
@@ -183,9 +184,10 @@ function chocobozzz {
 	linstall='Chocobozzz'
 	# http://openvpn.selfmicro.com/index.php?installation
 	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 60
-
+	systemctl start openvpn-server@server
+	updatedb	
 }
-
+	
 function sup-openvpn{
 	systemctl stop openvpn-server@server
 	rm -rf /etc/openvpn
