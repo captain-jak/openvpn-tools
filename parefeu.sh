@@ -7,8 +7,8 @@ function parefeu {
 	--ok-label "Valider" --cancel-label "Quitter" \
 	--checklist "
 	Cochez les boîtes." 25 60 8 \
-	"install" "Installation - mise à jour" off \
-	"desinstall" "Désinstallation" off 2> $FICHTMP
+	"desinstall" "Désinstallation" off \
+	"install" "Installation - mise à jour" off  2> $FICHTMP
 	# traitement de la réponse
 	# 0 est le code retour du bouton Valider
 	# ici seul le bouton Valider permet de continuer
