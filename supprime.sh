@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Menu de desinstallation
-function supprime {
+function suprime {
 	# boîte de cases à cocher proprement dite
 	dialog --backtitle "Désinstallation" --title "Désinstallation" \
 	--ok-label "Valider" --cancel-label "Quitter" \
