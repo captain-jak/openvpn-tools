@@ -55,7 +55,7 @@ function lemenu {
 	Cochez les boîtes." 25 60 8 \
 	"init" "Initialisation - mise à jour" off \
 	"lamp" "Apache - PHP - MariaDB" off \
-	"parefeu" "Mise en place du pare-feu" off \
+	"parefeu" "Pare-feu: installation - désinstallation" off \
 	"openvpn" "openvpn - easyrsa - admin openvpn" off \
 	"certificat" "Gestion des clés" off \
 	"version" "Statut et version du serveur Openvpn" off \

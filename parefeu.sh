@@ -1,8 +1,33 @@
 #!/bin/bash
 
-# titi
-
+# Menu du pare-feu
 function parefeu {
+	# boîte de cases à cocher proprement dite
+	dialog --backtitle "Pare feu" --title "Pare feu" \
+	--ok-label "Valider" --cancel-label "Quitter" \
+	--checklist "
+	Cochez les boîtes." 25 60 8 \
+	"install" "Installation - mise à jour" off \
+	"desinstall" "Désinstallation" off 2> $FICHTMP
+	# traitement de la réponse
+	# 0 est le code retour du bouton Valider
+	# ici seul le bouton Valider permet de continuer
+	# tout autre action (Quitter, Esc, Ctrl-C) arrête le script.
+
+	if [ $? = 0 ]
+	then
+		for i in `cat $FICHTMP`
+		do
+			case $i in
+				"install") parefeu-install ;;
+				"desinstall") parefeu-desinstall;;
+			esac
+		done
+	else exit 0
+	fi 
+}
+
+function parefeu-install {
 		echo "Installation $STR"
 		dnf install firewalld -y
 		systemctl start firewalld
@@ -30,4 +55,11 @@ function parefeu {
 		systemctl restart firewalld
 		firewall-cmd --permanent --list-all
 		whiptail --title "Pare-feu" --msgbox "Le pare-feu a été installé:\n" 10 40
+}
+
+function parefeu-desinstall {
+	systemctl stop firewalld
+	# supprimer les régles
+	dnf remove firewalld -y
+	whiptail --title "Pare-feu" --msgbox "Le pare-feu a été désinstallé:\n" 10 40
 }
