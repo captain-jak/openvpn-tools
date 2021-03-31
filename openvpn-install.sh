@@ -46,7 +46,7 @@ function openvpn-dnf {
 	# Installation openvpn avec la dernière version déjà compilée
 	echo "Installation version compilée d'Openvpn"
 	# suppression si autre version installée
-	# sup-openvpn
+	# => a faire
 	dnf install -y openvpn
 	cp /root/openvpn-tools/server-2.4.conf /etc/openvpn/server/server.conf
 	mv /usr/lib/systemd/system/openvpn-server@.service /usr/lib/systemd/system/openvpn-server@server.service
@@ -186,26 +186,6 @@ function chocobozzz {
 	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 60
 	systemctl start openvpn-server@server
 	updatedb	
-}
-	
-function sup-openvpn{
-	systemctl stop openvpn-server@server
-	rm -rf /etc/openvpn
-	rm -rf /etc/systemd/system/multi-user.target.wants/openvpn-server*
-	rm -rf /tmp/easy-rsa
-	rm -rf /tmp/openvpn*
-	rm -rf /tmp/openvpn*
-	rm -rf /usr/local/include/openvpn*
-	rm -rf /usr/local/lib/openvpn
-	rm -rf /usr/local/sbin/openvpn
-	rm -rf /usr/sbin/openvpn
-	rm -rf /usr/local/share/doc/openvpn
-	rm -rf /usr/lib/systemd/system/openvpn*
-	rm -rf /var/log/openvpn*
-	rm -rf /var/www/openvpn-admin
-	m -rf /etc/openvpn/server/openvpn-status.log
-	rm -rf /tmpOpenVPN*
-	dnf install openvpn -y
 }
 
 
