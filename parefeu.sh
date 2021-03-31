@@ -8,6 +8,7 @@ function parefeu {
 	--checklist "
 	Cochez les boîtes." 25 60 8 \
 	"install" "Installation - mise à jour" off \
+	
 	"desinstall" "Désinstallation" off 2> $FICHTMP
 	# traitement de la réponse
 	# 0 est le code retour du bouton Valider
@@ -60,6 +61,10 @@ function parefeu-install {
 function parefeu-desinstall {
 	systemctl stop firewalld
 	# supprimer les régles
+	for srv in $(firewall-cmd --list-services);do firewall-cmd --remove-service=$srv; done
+	# règles minimum
+	firewall-cmd --add-service={ssh,dhcpv6-client}
+	firewall-cmd --runtime-to-permanent
 	dnf remove firewalld -y
 	whiptail --title "Pare-feu" --msgbox "Le pare-feu a été désinstallé:\n" 10 40
 }
