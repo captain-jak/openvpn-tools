@@ -8,7 +8,6 @@ function parefeu {
 	--checklist "
 	Cochez les boîtes." 25 60 8 \
 	"install" "Installation - mise à jour" off \
-	
 	"desinstall" "Désinstallation" off 2> $FICHTMP
 	# traitement de la réponse
 	# 0 est le code retour du bouton Valider
