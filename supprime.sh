@@ -7,8 +7,8 @@ function suprime {
 	--ok-label "Valider" --cancel-label "Quitter" \
 	--checklist "
 	Cochez les boîtes." 25 60 8 \
-	"openvpn-desinstall" "openvpn" off \
-	"openvpn-admin-desinstall" "Administration openvpn" off  2> $FICHTMP
+	"openvpn-admin-desinstall" "Administration openvpn" off \
+	"openvpn-desinstall" "openvpn" off 2> $FICHTMP
 	# traitement de la réponse
 	# 0 est le code retour du bouton Valider
 	# ici seul le bouton Valider permet de continuer
