@@ -58,12 +58,12 @@ function parefeu-install {
 }
 
 function parefeu-desinstall {
-	systemctl stop firewalld
 	# supprimer les régles
 	for srv in $(firewall-cmd --list-services);do firewall-cmd --remove-service=$srv; done
 	# règles minimum
 	firewall-cmd --add-service={ssh,dhcpv6-client}
 	firewall-cmd --runtime-to-permanent
+	systemctl stop firewalld
 	dnf remove firewalld -y
 	whiptail --title "Pare-feu" --msgbox "Le pare-feu a été désinstallé:\n" 10 40
 }
