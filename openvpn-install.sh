@@ -119,6 +119,12 @@ function compil {
 		if (whiptail --title "Confirmation" --yesno "Installer l'interface d'administration d'openvpn?" 8 78); then
 			echo "Installation chocobozz."
 			chocobozzz
+			rm -rf /etc/openvpn/server/*
+			mv /etc/openvpn/ca.crt /etc/openvpn/server/
+			mv /etc/openvpn/ta.key/etc/openvpn/server/
+			mv /etc/openvpn/dh.pem/etc/openvpn/server/
+			mv /etc/openvpn/server.* /etc/openvpn/server/
+			cat /root/openvpn-tools/server-chocobozzz.conf /etc/openvpn/server/server.conf
 		fi	
 	fi
 }
