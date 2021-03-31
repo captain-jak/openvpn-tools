@@ -90,7 +90,8 @@ function lemenu {
 while :
 	do lemenu
 done
-
+# supprime les process dialog qui n'ont pas été fermés
+pkill dialog
 
 # find a word in a directory and sundirectories, ignoring the case
 # grep -irw openvpn *
