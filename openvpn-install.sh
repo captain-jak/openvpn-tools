@@ -169,14 +169,14 @@ sql_result=$(echo "SHOW DATABASES" | mysql -u root --password="$mysql_root_pass"
 # Check if the database doesn't already exist
 if [ "$sql_result" != "" ]; then
   echo "The openvpn-admin database already exists."
-  exit
+  echo "DROP DATABASE openvpn-admin" | mysql -u root --password="$mysql_root_pass" &> /dev/null
 fi
 read -p "MySQL user name for OpenVPN-Admin (will be created): " mysql_user
 
 echo "SHOW GRANTS FOR $mysql_user@localhost" | mysql -u root --password="$mysql_root_pass" &> /dev/null
 if [ $? -eq 0 ]; then
   echo "The MySQL user already exists."
-  exit
+  echo "DROP USER 'openvpn'@'localhost';" | mysql -u root --password="$mysql_root_pass" &> /dev/null
 fi
 
 	
