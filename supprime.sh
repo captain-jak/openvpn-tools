@@ -77,6 +77,6 @@ rm -rf /tmp/jcameron-*
 
 function openvpn-admin-desinstall {
 	chmod +x /tmp/OpenVPN-Admin/desinstall.sh
-	/tmp/OpenVPN-Admin/desinstall.sh /var/www
+	/tmp/OpenVPN-Admin/desinstall.sh /var/www/
 	updatedb
 }
