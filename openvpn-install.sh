@@ -13,6 +13,7 @@ function openvpn-git {
 		mkdir /etc/openvpn
 		mkdir /etc/openvpn/client/
 		mkdir /etc/openvpn/server/
+		rm -rf /etc/openvpn/server/server.conf
 		cp /root/openvpn-tools/server-2.5.conf /etc/openvpn/server/server.conf
 		ln -sf /usr/local/sbin/openvpn /usr/sbin/
 		echo "[Unit]
@@ -48,6 +49,7 @@ function openvpn-dnf {
 	# suppression si autre version installée
 	# => a faire
 	dnf install -y openvpn
+	rm -rf /etc/openvpn/server/server.conf
 	cp /root/openvpn-tools/server-2.4.conf /etc/openvpn/server/server.conf
 	mv /usr/lib/systemd/system/openvpn-server@.service /usr/lib/systemd/system/openvpn-server@server.service
 }
