@@ -76,7 +76,7 @@ set_var EASYRSA_DIGEST          \"sha256\"
 	# to help block DoS attacks and UDP port flooding.
 	# Ne pas oublier pour être effectif, a ajouter dans server.conf
 	openvpn --genkey --secret ta.key
-	mv ta.key /etc/openvpn/server/
+	mv ta.key /etc/openvpn/
 	whiptail --title "Clés serveur" --msgbox "Les clés serveur ont été créés." 10 40
 			fi	
 }

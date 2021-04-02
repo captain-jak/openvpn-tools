@@ -13,6 +13,7 @@ function openvpn-git {
 		mkdir /etc/openvpn
 		mkdir /etc/openvpn/client/
 		mkdir /etc/openvpn/server/
+		mkdir /etvopenvpn/ccd/
 		rm -rf /etc/openvpn/server/server.conf
 		cp /root/openvpn-tools/server-2.5.conf /etc/openvpn/server/server.conf
 		ln -sf /usr/local/sbin/openvpn /usr/sbin/
