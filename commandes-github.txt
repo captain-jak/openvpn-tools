@@ -5,13 +5,28 @@ https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-
 # Adding a new SSH key to your GitHub account
 https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
 
-# au démarrage de chaque session , pour éviter d'entre le mot de passe, ajouter au shell par défaut (avec dans le fichier x la passphrase):
-vi ~/.bashrc
+# Generating a new SSH key and adding it to the ssh-agent to the local machine
+ssh-keygen -t rsa -b 4096 -C "your_bean@selfmicro.fr"
 eval "$(ssh-agent -s)"
-DISPLAY=1 SSH_ASKPASS="~/.ssh/x" ssh-add ~/.ssh/github < /dev/null
-
-# cloner le repository sur le serveur
-git clone 
+mv alibaba-openvpn* ~/.ssh/
+ssh-add ~/.ssh/alibaba-openvpn
+# Adding a new SSH key to your GitHub account
+cat ~/.ssh/alibaba-openvpn.pub
+# dans la console administration github selectionner : Profile ==> Settings ==> SSH and GPG keys
+# add the new key
+# au démarrage de chaque session , pour éviter d'entre le mot de passe, ajouter au shell par défaut (avec dans le fichier x la passphrase):
+vi  ~/.ssh/x
+#!/bin/sh
+echo bonjourselfmicro
+chmod +x ~/.ssh/x
+eval "$(ssh-agent -s)"
+DISPLAY=1 SSH_ASKPASS="/root/.ssh/x" ssh-add /root/.ssh/alibaba-openvpn < /dev/null
+# Testing your SSH connection
+# Open Terminal. sur la machine locale
+ssh -T git@github.com
+vi ~/.bashrc
+# cloner le repository sur la machine locale:
+git clone git@github.com:captain-jak/openvpn-tools.git
 
 #ajouter un fichier au repository:
 git add <nom-du-fichier>

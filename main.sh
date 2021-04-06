@@ -16,6 +16,8 @@
 #~ # démarrage de l'installation
 #~ ./main.sh
 
+echo -e "\e[1;31m Bonjour \e[0m"
+
 # Paramétres d'installation:
 ADRESSE="https://swupdate.openvpn.org/community/releases/"
 LAVER="openvpn-2.5.1"
