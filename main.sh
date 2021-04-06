@@ -16,7 +16,7 @@
 #~ # démarrage de l'installation
 #~ ./main.sh
 
-echo -e "\e[1;31m Bonjour \e[0m"
+echo -e "\e[1;31m Bonjour, je démarre \e[0m"
 
 # Paramétres d'installation:
 ADRESSE="https://swupdate.openvpn.org/community/releases/"
@@ -31,6 +31,8 @@ DEBUG=6
 . /root/openvpn-tools/certif.sh
 . /root/openvpn-tools/lamp-base.sh
 . /root/openvpn-tools/supprime.sh
+
+echo -e "\e[1;31m Encore moi ... \e[0m"
 
 if [[ "${EUID}" == 0 ]]; then
         :
