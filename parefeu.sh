@@ -6,7 +6,7 @@ function parefeu {
 	dialog --backtitle "Pare feu" --title "Pare feu" \
 	--ok-label "Valider" --cancel-label "Quitter" \
 	--checklist "
-	Cochez les boîtes." 25 60 8 \
+	Cochez le choix désiré." 25 60 8 \
 	"desinstall" "Désinstallation" off \
 	"install" "Installation - mise à jour" off  2> $FICHTMP
 	# traitement de la réponse
