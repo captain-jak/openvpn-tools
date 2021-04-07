@@ -56,7 +56,7 @@ function lemenu {
 	dialog --backtitle "Installation Openvpn" --title "Installation Openvpn" \
 	--ok-label "Valider" --cancel-label "Quitter" \
 	--checklist "
-	Cochez les boites." 25 60 8 \
+	Cochez les boîtes." 25 60 8 \
 	"init" "Initialisation - mise à jour" off \
 	"lamp" "Apache - PHP - MariaDB" off \
 	"parefeu" "Pare-feu: install - désinstall" off \
