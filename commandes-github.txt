@@ -25,6 +25,10 @@ DISPLAY=1 SSH_ASKPASS="/root/.ssh/x" ssh-add /root/.ssh/alibaba-openvpn < /dev/n
 # Open Terminal. sur la machine locale
 ssh -T git@github.com
 vi ~/.bashrc
+eval "$(ssh-agent -s)"
+DISPLAY=1 SSH_ASKPASS="/root/.ssh/x" ssh-add /root/.ssh/alibaba-openvpn < /dev/null
+# suppression des process maj Alibaba
+pkill Ali
 # cloner le repository sur la machine locale:
 git clone git@github.com:captain-jak/openvpn-tools.git
 

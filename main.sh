@@ -1,7 +1,7 @@
 #!/bin/bash
 # Bienvenue sur digital ocean
 # ce script nécessite les bibliotheques dialog et whiptail (newt)
-# dnf -y dialog newt
+# dnf install -y dialog newt
 
 # ssh - ServerAliveInterval 120 -i ~/.ssh/digital-ocean root@178.128.226.69
 # upload fichiers de configuration sur le serveur:

@@ -55,7 +55,7 @@ function lamp {
 	ErrorLog logs/openvpn.selfmicro.com-error.log
 	CustomLog logs/openvpn.selfmicro.com-access.log combined
 	</VirtualHost>" > /etc/httpd/conf.d/openvpn.selfmicro.com.conf
-	certbot --apache -d openvpn.selfmicro.com -d openvpn.selfmicro.fr
+	certbot --apache -d openvpn.selfmicro.com
 	# Test Setup
 	systemctl restart httpd.service
 	echo "Pour tester, sur votre navigateur:http://openvpn.selfmicro.com/info.php"
