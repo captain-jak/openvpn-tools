@@ -150,6 +150,8 @@ function laversion {
 }
 
 function chocobozzz {
+	# suppression ancienne installation:
+	rm -rf /tmp/OpenVPN-Admin
 	systemctl stop openvpn-server@server
 	systemctl stop httpd.service
 	dnf -y install nodejs unzip git wget sed npm
