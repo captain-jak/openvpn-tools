@@ -40,6 +40,7 @@ function parefeu-install {
 		firewall-cmd --permanent --zone=public --add-port=10000/tcp
 		#openvpn
 		firewall-cmd --permanent --zone=public --add-port=1194/udp
+		firewall-cmd --permanent --zone=public --add-port=1194/tcp
 		firewall-cmd --reload
 		# réglages du pare-feu
 		echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.conf
@@ -48,7 +49,9 @@ function parefeu-install {
 		firewall-cmd --permanent --zone=trusted --add-interface=tun0
 		firewall-cmd --permanent --add-masquerade
 		SERVERIP=$(ip route get 1.1.1.1 | awk 'NR==1 {print $(NF-2)}')
-		firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -s  10.5.0.0/24 -o $SERVERIP -j MASQUERADE
+		firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -s  10.8.0.0/24 -o $SERVERIP -j MASQUERADE
+		# pour alibaba (private ip sur le serveur)
+		#firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -s  10.8.0.0/24 -o 47.243.69.228 -j MASQUERADE
 		# firewalld AllowZoneDrifting set to no
 		sed -i 's/AllowZoneDrifting=yes/AllowZoneDrifting=no/' /etc/firewalld/firewalld.conf
 		firewall-cmd --reload

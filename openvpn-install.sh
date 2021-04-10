@@ -93,6 +93,7 @@ function compil {
 		cp  -R /tmp/easy-rsa/easyrsa3/* /etc/openvpn/easy-rsa/
 		mkdir /etc/openvpn/lesclients/
 		cp /tmp/easy-rsa/ChangeLog /etc/openvpn/easy-rsa/
+		rm -rf /tmp/easy-rsa
 		if ! command systemctl start openvpn-server@server &> /dev/null
 		then
 			# Les clés du serveur doivent d'abord être créés:
@@ -157,6 +158,9 @@ function chocobozzz {
 	git clone https://github.com/Chocobozzz/OpenVPN-Admin.git
 	cd OpenVPN-Admin
 	chmod +x *.sh
+	# pas d'installation easyrsa avec le script d'install chocobozzz (install 3.06(buggé) au lieu de 3.09)
+	# suppression des lignes 120 à 123 du script install.sh:
+	sed -i '120,123d' install.sh
 	./install.sh /var/www/ apache apache
 	
 	# suppression si exite bas de données précédente:

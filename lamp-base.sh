@@ -16,12 +16,13 @@ function lamp-base {
 }
 
 function lamp {
-	dnf install -y httpd httpd-tools mariadb-server mariadb certbot python3-certbot-apache mod_ssl
+	dnf install -y httpd httpd-tools mariadb-server mariadb certbot python3-certbot-apache mod_ssl firewalld
 	dnf install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
 	dnf -y module reset php
 	dnf -y module enable php:remi-7.4
 	dnf install -y php php-{mysql,gd,pdo,xml,mbstring,zip,mysqlnd,opcache,json,mcrypt,gettext,curl,intl} 
 	# autoriser les services sur le pare-feu
+	systemctl enable firewalld
 	systemctl enable httpd
 	systemctl enable mariadb
 	firewall-cmd --permanent --zone=public --add-service=http
@@ -72,7 +73,9 @@ enabled=1
 	wget http://www.webmin.com/jcameron-key.asc
 	rpm --import jcameron-key.asc
 	yum -y install webmin
-	systemctl restart firewalld
+	firewall-cmd --permanent --zone=public --add-port=10000/tcp
+	firewall-cmd --reload
+	systemctl enable webmin
 	systemctl start webmin
 	$linstall="Apache-MariaDB-php-webmin"
 	updatedb
