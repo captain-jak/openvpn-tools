@@ -2,6 +2,7 @@
 
 
 # On pousse les nouveaux fichiers sur github
+git config pull.rebase false
 git commit -a -m "Changement par script sur Lenovo3"
 git push
 
