@@ -163,6 +163,8 @@ function chocobozzz {
 	sed -i '120,123d' install.sh
 	./install.sh /var/www/ apache apache
 	
+	cp /etc/openvpn/easy-rsa/openssl-easyrsa.cnf /etc/openvpn/easy-rsa/safessl-easyrsa.cnf
+	
 	# suppression si exite bas de données précédente:
 	
 	#~ Setup the web server (Apache, NGinx...) to serve the web application.
