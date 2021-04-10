@@ -162,7 +162,7 @@ function chocobozzz {
 	chmod +x *.sh
 	# pas d'installation easyrsa avec le script d'install chocobozzz (install 3.06(buggé) au lieu de 3.09)
 	# suppression des lignes 120 à 123 du script install.sh:
-	#sed -i '120,123d' install.sh
+	sed -i '120,123d' install.sh
 	
 	./install.sh /var/www/ apache apache
 	cp /etc/openvpn/easy-rsa/openssl-easyrsa.cnf /etc/openvpn/easy-rsa/safessl-easyrsa.cnf
