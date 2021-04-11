@@ -28,7 +28,7 @@ function suprime {
 }
 
 function openvpn-desinstall {
-		echo "Désnstallation: openvpn - administration openvpn - firewalld - easy-rsa"
+		echo "Désnstallation: openvpn - administration openvpn - easy-rsa"
 		whiptail --title "Désinstallation" --msgbox "Désinstallation (sauf LAMP):\n- openvpn\n- easy-rsa\n" 10 40
 #########################################################################
 # menu de désinstallation
