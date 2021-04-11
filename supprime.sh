@@ -70,7 +70,7 @@ rm -rf /tmp/jcameron-*
 		rm -rf /usr/lib/systemd/system/openvpn*
 		rm -rf /var/log/openvpn*
 		rm -rf /var/www/openvpn-admin
-		m -rf /etc/openvpn/server/openvpn-status.log
+		rm -rf /etc/openvpn/server/openvpn-status.log
 		rm -rf /tmpOpenVPN*
 		updatedb
 }

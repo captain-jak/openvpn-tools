@@ -123,12 +123,6 @@ function compil {
 		if (whiptail --title "Confirmation" --yesno "Installer l'interface d'administration d'openvpn?" 8 78); then
 			echo "Installation chocobozz."
 			chocobozzz
-			rm -rf /etc/openvpn/server/*
-			mv /etc/openvpn/ca.crt /etc/openvpn/server/
-			mv /etc/openvpn/ta.key /etc/openvpn/server/
-			mv /etc/openvpn/dh.pem /etc/openvpn/server/
-			mv /etc/openvpn/server.* /etc/openvpn/server/
-			cp /root/openvpn-tools/server-chocobozzz.conf /etc/openvpn/server/server.conf
 		fi	
 	fi
 }
@@ -164,6 +158,8 @@ function chocobozzz {
 	# suppression des lignes 120 à 123 du script install.sh:
 	sed -i '120,123d' install.sh
 	
+	# --explicit-exit-notify
+	
 	./install.sh /var/www/ apache apache
 	cp /etc/openvpn/easy-rsa/openssl-easyrsa.cnf /etc/openvpn/easy-rsa/safessl-easyrsa.cnf
 	
@@ -176,7 +172,7 @@ function chocobozzz {
 	#~ $ git pull origin master
 	#~ # ./update.sh /var/www
 
-	# Desinstallion
+	# Desinstalallion
 	#~ It will remove all installed components (OpenVPN keys and configurations, the web application, iptables rules...).
 	#~ # ./desinstall.sh /var/www
 	
@@ -196,6 +192,12 @@ function chocobozzz {
 	# http://openvpn.selfmicro.com/index.php?installation
 	whiptail --title "Admin openvpn" --msgbox "Pour finir l'installation de linterface d'administration:\n http://openvpn.selfmicro.com/index.php?installation" 10 60
 	systemctl start openvpn-server@server
+	rm -rf /etc/openvpn/server/*
+	mv /etc/openvpn/ca.crt /etc/openvpn/server/
+	mv /etc/openvpn/ta.key /etc/openvpn/server/
+	mv /etc/openvpn/dh.pem /etc/openvpn/server/
+	mv /etc/openvpn/server.* /etc/openvpn/server/
+	cp /root/openvpn-tools/server-chocobozzz.conf /etc/openvpn/server/server.conf
 	updatedb	
 }
 
