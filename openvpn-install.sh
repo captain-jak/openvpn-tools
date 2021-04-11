@@ -157,7 +157,8 @@ function chocobozzz {
 	# pas d'installation easyrsa avec le script d'install chocobozzz (install 3.06(buggé) au lieu de 3.09)
 	# suppression des lignes 120 à 123 du script install.sh:
 	sed -i '120,123d' install.sh
-	
+	# correction sur le fichier client.ovpn
+	sed '3 a port 1194' /var/www/openvpn-admin/client-conf/gnu-linux/client.ovpn
 	# --explicit-exit-notify
 	
 	./install.sh /var/www/ apache apache
