@@ -13,4 +13,5 @@ echo "Mise à jour sur serveur Alibaba faite"
 
 # Mise à jour sur le serveur contabo:
 ssh -i ~/.ssh/git-contabo root@selfmicro.com 'bash -s' < /home/enjoy/openvpn-tools/distant.sh
-echo "Mise à jour sur serveur Contabo faite"
+echo "Mise à jour sur serveur Contabo faite."
+
