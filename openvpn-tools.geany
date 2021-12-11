@@ -29,7 +29,7 @@ long_line_column=72
 
 [files]
 current_page=0
-FILE_NAME_0=134;Sh;0;EUTF-8;1;1;0;%2Fhome%2Fenjoy%2Fopenvpn-tools%2Finit.sh;0;4
+FILE_NAME_0=651;None;0;EUTF-8;1;1;0;%2Fhome%2Fenjoy%2Fprojets%2Fopenvpn-tools%2Fopenvpn-tools.geany;0;4
 
 [VTE]
 last_dir=/home/enjoy/openvpn-tools
@@ -38,7 +38,13 @@ last_dir=/home/enjoy/openvpn-tools
 ShFT_00_LB=git
 ShFT_00_CM=git commit -am 'projet geany' && git push\n
 ShFT_00_WD=
-filetypes=Sh;
+filetypes=Sh;None;
 ShFT_01_LB=
 ShFT_01_CM=
 ShFT_01_WD=
+NoneFT_00_LB=git
+NoneFT_00_CM=git commit -am "Mise a jour de lenovo" 
+NoneFT_00_WD=
+NoneFT_01_LB=gitr2
+NoneFT_01_CM=git push
+NoneFT_01_WD=
