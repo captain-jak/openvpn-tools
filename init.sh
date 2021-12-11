@@ -2,7 +2,6 @@
 
 # démarrage de l'installation
 # initialisation du serveur: mises à jour - création mot de passe 
-toto
 
 function init {
 	echo "Installation $STR"
